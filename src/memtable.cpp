@@ -1,4 +1,7 @@
+#include <climits>
 #include <vector>
+
+using std::vector;
 
 
 struct BinaryT{
@@ -23,6 +26,9 @@ public:
     int current_size = 0;
     
     void insert(int key, int val){
+        current_size++;
+        if(current_size == memtable_size){flush_memtable(); return;}
+
         BinaryT* z = new BinaryT;
         z->key = key;
         z->val = val;
@@ -87,11 +93,11 @@ public:
             else if(x->key > key){x = x->right;}
             else{x = x->left;}
         }
-        return -1;      //I dont know what the return value should be if the key is not found.
+        return INT_MIN;   //I dont know what the return value should be if the key is not found.
     }
 
-    std::vector<pair> scan(int begin, int end){
-        std::vector<pair> r;
+    vector<vector<int>> scan(int begin, int end){
+        vector<vector<int>> r;
         return scan(begin, end, r, root);
     }
 
@@ -111,6 +117,10 @@ private:
         x->parent = y;
     }
 
+    void flush_memtable(){
+
+    }
+
     void rightRotate(BinaryT* x){
         BinaryT* y = x->left;
         x->left = y->right;
@@ -123,20 +133,20 @@ private:
         x->parent = y;
     }    
 
-    std::vector<pair> scan(int begin, int end, std::vector<pair> r, BinaryT* x){
+    vector<vector<int>> scan(int begin, int end, std::vector<vector<int>> r, BinaryT* x){
         if(x == nil){return r;}
-        
+
         if(x->key > begin){
-            scan(begin, end, r, x->left);
+            vector<vector<int>> n = scan(begin, end, r, x->left);
+            r.insert(r.end(), n.begin(), n.end());
         }
         if(begin < x->key < end ){
-            pair p;
-            p.key = x->key;
-            p.val = x->val;
+            vector<int> p = {x->key, x->val};
             r.push_back(p);
         }
         if(x->key < end){
-            scan(begin, end, r, x->right);
+            vector<vector<int>> n = scan(begin, end, r, x->right);
+            r.insert(r.end(), n.begin(), n.end());
         }
 
         return r;
