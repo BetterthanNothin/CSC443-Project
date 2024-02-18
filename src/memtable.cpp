@@ -22,12 +22,8 @@ struct pair{
 class memtable{
 
 public:
-    const int memtable_size = 30;
-    int current_size = 0;
     
     void insert(int key, int val){
-        current_size++;
-        if(current_size == memtable_size){flush_memtable(); return;}
 
         BinaryT* z = new BinaryT;
         z->key = key;
@@ -96,7 +92,7 @@ public:
         return INT_MIN;   //I dont know what the return value should be if the key is not found.
     }
 
-    vector<vector<int>> scan(int begin, int end){
+    vector<vector<int>> scan(int begin = INT_MIN, int end = INT_MAX){
         vector<vector<int>> r;
         return scan(begin, end, r, root);
     }
@@ -115,10 +111,6 @@ private:
         else{x->parent->right = y;}
         x->left = x;
         x->parent = y;
-    }
-
-    void flush_memtable(){
-
     }
 
     void rightRotate(BinaryT* x){
@@ -151,7 +143,6 @@ private:
 
         return r;
     }
-
 };
 
 

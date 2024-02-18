@@ -1,4 +1,3 @@
-#include <iostream>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -9,7 +8,8 @@
 using std::string;
 using std::vector;
 
-int fun;
+
+
 
 struct SST{
     int file_descriptor;
@@ -19,14 +19,15 @@ struct SST{
     string file_name; 
 };
 
-
-class S_Group{
-
-    vector<int> get(int key){
-
-    }
-
+void readPage(SST file, ){
+    return;
 }
+
+void openFile(SST file){
+    file.file_descriptor = open(file.file_name.data(), O_RDONLY);
+}
+
+SST writeFile(vector<vector<int>> KV_pairs, int db_number){}
 
 
 
