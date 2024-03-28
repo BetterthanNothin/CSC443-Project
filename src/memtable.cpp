@@ -2,6 +2,7 @@
 
 using std::vector;
 
+
 void memtable::insert(int key, int val){
 
     BinaryT* z = new BinaryT;
