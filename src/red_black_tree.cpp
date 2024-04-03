@@ -119,4 +119,16 @@ vector<vector<int>> red_black_tree::scan(int begin, int end, std::vector<vector<
     return r;
 }
 
+void red_black_tree::removeSubtree(BinaryT* node){
+    if (node != nil){
+        if (node->left != nil){removeSubtree(node->left);}
+        if (node->right != nil){removeSubtree(node->right);}
+        delete node;
+    }
+}
+
+red_black_tree::~red_black_tree(){
+    removeSubtree(root);
+}
+
 
